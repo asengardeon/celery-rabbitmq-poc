@@ -1,6 +1,24 @@
 # POC celery + Rabbit
 Projeto com objetivo para testar a integração celery + rabbit para s=publish subscriber.
 
+## Depdendencias:
+- pyhton 3.11
+- pipenv. Este projeto utiliza pipenv(https://pipenv.pypa.io/en/latest/) como gerenciador de dependencias. 
+Para instalar o Pipenv
+```shell
+pip install pipenv
+```
+
+Após é executar:
+```shell
+pipenv install
+```
+
+## Arquivos principais
+- app : aplicação flask para publicar mensagem
+- worker : aplicaçãoque fica escutando fila para processar as mensagens
+
+
 ## executando
 Este projeto possui um arquivo docker-compose que inicia o rabbit, aplicação worker(consumidora) e um publisher escrito com Flask.
 para exeuctar é necessário apenas executar o comando :
