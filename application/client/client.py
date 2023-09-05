@@ -1,6 +1,6 @@
 from kombu import producers
 
-from broker.queues import task_exchange
+from application.broker.queues import task_exchange
 
 priority_to_routing_key = {
     'high': 'hipri',

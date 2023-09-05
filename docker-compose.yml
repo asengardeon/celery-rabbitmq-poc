@@ -2,7 +2,7 @@ version: '2'
 services:
     rabbitmq:
         image: rabbitmq:3-management-alpine
-        container_name: 'rabbitmq'
+        container_name: 'rabbit'
         environment:
             - RABBITMQ_DEFAULT_USER=admin
             - RABBITMQ_DEFAULT_PASS=mypass
@@ -15,9 +15,15 @@ services:
         networks:
             - rabbitmq_go_net
     celery-rabbit-poc:
+        environment:
+            BROKER_SERVER: "rabbitmq"
         build: .
         ports:
             - "5000:5000"
+        depends_on:
+            - "rabbitmq"
+        links:
+            - rabbitmq
         networks:
             - rabbitmq_go_net
 networks:

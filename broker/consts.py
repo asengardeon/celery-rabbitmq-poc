@@ -1,1 +1,0 @@
-broker_url = 'amqp://admin:mypass@localhost:5672/sprint'

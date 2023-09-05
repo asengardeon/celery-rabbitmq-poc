@@ -1,12 +1,12 @@
 from celery import Celery
 from flask import Flask
 
-from client.client import send_as_task
-from broker.consts import broker_url
-from tasks.tasks import hello_task
+from application.broker.consts import get_broker_url
+from application.client.client import send_as_task
+from application.tasks.tasks import hello_task
 
 app = Flask(__name__)
-app.config['CELERY_BROKER_URL'] = broker_url
+app.config['CELERY_BROKER_URL'] = get_broker_url()
 celery = Celery(app.name, broker=app.config['CELERY_BROKER_URL'])
 celery.conf.update(app.config)
 
@@ -18,7 +18,7 @@ def index():
 def newmessage():
     from kombu import Connection
 
-    connection = Connection(broker_url)
+    connection = Connection(get_broker_url())
     send_as_task(connection, fun=hello_task, args=('Kombu',), kwargs={}, priority='high')
     return "OK"
 

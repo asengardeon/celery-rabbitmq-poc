@@ -1,8 +1,8 @@
 from kombu.mixins import ConsumerMixin, logger
 from kombu.utils import reprcall
 
-from broker.consts import broker_url
-from broker.queues import task_queues
+from application.broker.consts import get_broker_url
+from application.broker.queues import task_queues
 
 
 class Worker(ConsumerMixin):
@@ -32,7 +32,8 @@ if __name__ == '__main__':
 
     # setup root logger
     setup_logging(loglevel='INFO', loggers=[''])
-
+    broker_url = get_broker_url()
+    logger.info(f"trying to connect to: {broker_url}")
     with Connection(broker_url) as conn:
         try:
             worker = Worker(conn)
