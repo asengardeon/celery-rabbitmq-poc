@@ -14,6 +14,12 @@ services:
             - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
         networks:
             - rabbitmq_go_net
+    celery-rabbit-poc:
+        build: .
+        ports:
+            - "5000:5000"
+        networks:
+            - rabbitmq_go_net
 networks:
   rabbitmq_go_net:
     driver: bridge
