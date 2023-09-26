@@ -1,3 +1,4 @@
+from celery import Celery
 from kombu.mixins import ConsumerMixin, logger
 from kombu.utils import reprcall
 
@@ -27,16 +28,15 @@ class Worker(ConsumerMixin):
         message.ack()
 
 if __name__ == '__main__':
-    from kombu import Connection
     from kombu.utils.debug import setup_logging
 
     # setup root logger
     setup_logging(loglevel='INFO', loggers=[''])
     broker_url = get_broker_url()
+    celery = Celery('worker', broker=broker_url)
     logger.info(f"trying to connect to: {broker_url}")
-    with Connection(broker_url) as conn:
-        try:
-            worker = Worker(conn)
-            worker.run()
-        except KeyboardInterrupt:
-            print('bye bye')
+    try:
+        worker = Worker(celery.broker_connection())
+        worker.run()
+    except KeyboardInterrupt:
+        print('bye bye')

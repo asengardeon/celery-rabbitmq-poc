@@ -16,9 +16,7 @@ def index():
 
 @app.get('/newmessage')
 def newmessage():
-    from kombu import Connection
-
-    connection = Connection(get_broker_url())
+    connection = celery.broker_connection()
     send_as_task(connection, fun=hello_task, args=('Kombu',), kwargs={}, priority='high')
     return "OK"
 
