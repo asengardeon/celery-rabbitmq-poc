@@ -1,8 +1,10 @@
-from celery import Celery
+import asyncio
+import concurrent
+
 from kombu.mixins import ConsumerMixin, logger
 from kombu.utils import reprcall
 
-from application.broker.consts import get_broker_url
+from application.broker.celery_configs import GT_Broker
 from application.broker.queues import task_queues
 
 
@@ -27,16 +29,28 @@ class Worker(ConsumerMixin):
             logger.error('task raised exception: %r', exc)
         message.ack()
 
-if __name__ == '__main__':
+def run_worker(broker_connection):
+    logger.info(f"trying to connect to: {broker_connection}")
+    try:
+        worker = Worker(broker_connection)
+        worker.run()
+    except KeyboardInterrupt:
+        print('bye bye')
+def main():
     from kombu.utils.debug import setup_logging
 
     # setup root logger
     setup_logging(loglevel='INFO', loggers=[''])
-    broker_url = get_broker_url()
-    celery = Celery('worker', broker=broker_url)
-    logger.info(f"trying to connect to: {broker_url}")
-    try:
-        worker = Worker(celery.broker_connection())
-        worker.run()
-    except KeyboardInterrupt:
-        print('bye bye')
+    broker = GT_Broker('worker')
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = []
+        for x in range(0, 15):
+            futures.append(executor.submit(run_worker, broker.get_celery_broker().broker_connection()))
+        for future in concurrent.futures.as_completed(futures):
+            print(future.result())
+
+
+
+if __name__ == '__main__':
+    main()
+
