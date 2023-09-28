@@ -1,6 +1,7 @@
 import asyncio
 import concurrent
 
+from celery.exceptions import Reject
 from kombu.mixins import ConsumerMixin, logger
 from kombu.utils import reprcall
 
@@ -26,7 +27,7 @@ class Worker(ConsumerMixin):
         try:
             fun(*args, **kwargs)
         except Exception as exc:
-            logger.error('task raised exception: %r', exc)
+            message.reject(requeue=True)
         message.ack()
 
 def run_worker(broker_connection):
@@ -34,6 +35,7 @@ def run_worker(broker_connection):
     try:
         worker = Worker(broker_connection)
         worker.run()
+
     except KeyboardInterrupt:
         print('bye bye')
 def main():
@@ -42,13 +44,10 @@ def main():
     # setup root logger
     setup_logging(loglevel='INFO', loggers=[''])
     broker = GT_Broker('worker')
-    with concurrent.futures.ThreadPoolExecutor() as executor:
+    with concurrent.futures.ThreadPoolExecutor(max_workers=1) as executor:
         futures = []
-        for x in range(0, 15):
+        for x in range(0, 1):
             futures.append(executor.submit(run_worker, broker.get_celery_broker().broker_connection()))
-        for future in concurrent.futures.as_completed(futures):
-            print(future.result())
-
 
 
 if __name__ == '__main__':
