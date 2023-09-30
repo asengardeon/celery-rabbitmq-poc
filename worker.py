@@ -7,6 +7,7 @@ from kombu.utils import reprcall
 
 from application.broker.celery_configs import GT_Broker
 from application.broker.queues import task_queues
+from application.tasks.tasks import MyException
 
 
 class Worker(ConsumerMixin):
@@ -26,9 +27,11 @@ class Worker(ConsumerMixin):
         logger.info('Got task: %s', reprcall(fun.__name__, args, kwargs))
         try:
             fun(*args, **kwargs)
-        except Exception as exc:
-            message.reject(requeue=True)
-        message.ack()
+            message.ack()
+        except MyException as exc:
+            #logger.error('task raised exception: %r', exc)
+            message.reject(requeue=False)
+
 
 def run_worker(broker_connection):
     logger.info(f"trying to connect to: {broker_connection}")
