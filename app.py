@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 
 from application.broker.celery_configs import GT_Broker
 from application.client.client import send_as_task
@@ -13,8 +13,10 @@ def index():
 
 @app.get('/newmessage')
 def newmessage():
+    val = request.args.get('value')
+    val = 'Kombu' if not val else val
     connection = broker.get_celery_broker().broker_connection()
-    send_as_task(connection, fun=hello_task, args=('Kombu',), kwargs={}, priority='high')
+    send_as_task(connection, fun=hello_task, args=(val,), kwargs={}, priority='high')
     return "OK"
 
 if __name__ == "__main__":

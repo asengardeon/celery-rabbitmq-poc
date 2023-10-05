@@ -27,7 +27,9 @@ docker-compose up --build
 ```
 
 ## Testando
+
 A aplicação para publicar iniciará na no endereço http://127.0.0.1:5000. 
+### Testando mensagem de sucesso
 O endereço http://127.0.0.1:5000/newmessage publicará uma mensagem por topico que será consumida pela fila que o worker estará atuando:
 
 ## Logs exemplos:
@@ -37,3 +39,27 @@ Connected to amqp://admin:**@rabbitmq:5672//
 2023-09-05T14:03:37.079825081Z 172.26.0.1 - - [05/Sep/2023 14:03:37] "GET /newmessage HTTP/1.1" 200 -
 2023-09-05T14:03:37.097838886Z Got task: hello_task('Kombu')
 ```
+
+### Testando mensagem com erro qeu cai em deadletter
+O endereço http://127.0.0.1:5000/newmessage?value=<valor diferente de Kombu> publicará uma mensagem por topico que será consumida pela fila que o worker estará atuando. COmo a mensagem terá problemas ocorrerão dez tentativas de processamento e a mensagem será enviada para a fila deadletter.
+
+Ex: 
+- Executar endereço http://127.0.0.1:5000/newmessage?value=abacate
+
+```
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Received abacate
+Got task: hello_task('abacate')
+Got task: hello_task('abacate')
+Got task: hello_task('abacate')
+```
+E na fila do RabbitMQ ficará assim:
+
+![Fila DLQ RabbitMQ](documents/images/dlq-rabbitmq.png "Fila DLQ RabbitMQ")
