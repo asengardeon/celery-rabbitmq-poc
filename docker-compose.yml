@@ -4,8 +4,8 @@ services:
         image: rabbitmq:3-management-alpine
         container_name: 'rabbit'
         environment:
-            - RABBITMQ_DEFAULT_USER=admin
-            - RABBITMQ_DEFAULT_PASS=mypass
+            - RABBITMQ_DEFAULT_USER=rabbitmq
+            - RABBITMQ_DEFAULT_PASS=rabbitmq
         ports:
             - 5672:5672
             - 15672:15672
