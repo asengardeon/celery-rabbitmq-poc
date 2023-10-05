@@ -9,9 +9,9 @@ class GT_Broker:
 
     def bind_queues(self):
         for name in queues_names:
-            dlx = Exchange(f'dlq_{name}_exchange', type='fanout')
+            dlx = Exchange(f'dlq_{name}_exchange', type='topic')
 
-            dead_letter_queue = Queue(f'dlq_{name}', dlx)
+            dead_letter_queue = Queue(f'dlq_{name}', dlx, routing_key='*')
             dead_letter_queue.bind(self.celery_broker.broker_connection()).declare()
 
     def __init__(self, app_name):
