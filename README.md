@@ -40,7 +40,7 @@ Connected to amqp://admin:**@rabbitmq:5672//
 2023-09-05T14:03:37.097838886Z Got task: hello_task('Kombu')
 ```
 
-### Testando mensagem com erro qeu cai em deadletter
+### Testando mensagem com erro que cai em deadletter
 O endereço http://127.0.0.1:5000/newmessage?value=<valor diferente de Kombu> publicará uma mensagem por topico que será consumida pela fila que o worker estará atuando. COmo a mensagem terá problemas ocorrerão dez tentativas de processamento e a mensagem será enviada para a fila deadletter.
 
 Ex: 
@@ -63,3 +63,32 @@ Got task: hello_task('abacate')
 E na fila do RabbitMQ ficará assim:
 
 ![Fila DLQ RabbitMQ](documents/images/dlq-rabbitmq.png "Fila DLQ RabbitMQ")
+
+
+## Utilizando o Decorator implementado
+Foi implementado um exemplo de decorator utilizando o worker do Celery/Kombu, de forma a simplificar a implementação da aplicação:
+
+Para isto deve-se inicializar o core de controle na aplicação passando unma listagem de que identifica fila e exchanges associados:
+```python
+    qs = [GeekieQueueExchange('teste1', 'teste1_event'), GeekieQueueExchange('teste2', 'teste2_event')]
+    gr = GeekieRabbit(qs)
+```
+Este processo ira criar as estruturas de filas de dados e Deadletters e seus respectivos Exchanges.
+
+Em seguida é necessário apenas decorar uma função python que execute alguma ação baseado no evento.
+
+```python
+    @gr.task(queue_name='teste1')
+    def meu_consumidor(self):
+        print("consumidor1 executado")
+```
+
+Esta implementação suporta apenas serializador json como corpo da mensagem.
+o fonte  worker_decorated.py possui uma implementação exemplo.
+
+### Testando mensagem para o decorator
+O endereço http://127.0.0.1:5000/publish_message publicará uma mensagem que cairá no decorator que implementa a fila teste1. No log será apresentado:
+
+```
+consumidor1 executado
+```
