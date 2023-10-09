@@ -65,7 +65,7 @@ E na fila do RabbitMQ ficará assim:
 ![Fila DLQ RabbitMQ](documents/images/dlq-rabbitmq.png "Fila DLQ RabbitMQ")
 
 
-## Utilizando o Decorator implementado
+## Utilizando o Decorator implementado com  biblioteca Hijiki
 Foi implementado um exemplo de decorator utilizando o worker do Celery/Kombu, de forma a simplificar a implementação da aplicação:
 
 Para isto deve-se inicializar o core de controle na aplicação passando unma listagem de que identifica fila e exchanges associados:
@@ -99,3 +99,14 @@ https://pypi.org/project/hijiki/#history
 e 
 
 https://github.com/asengardeon/hijiki
+
+### Publicando uma mensagem
+Para publicar uma mensagem com o uso da biblioteca Hijiki, pode-se utilizar o código abaixo:
+
+```python
+    pub = Publisher()
+    pub.publish_message('teste1_event', '{"value": "Esta é a mensagem"}')
+```
+
+Este objeto Publisher faz o uso das configurações de conexão passada para as configurações da biblioteca e publica uma mensagem no BROKER.
+
