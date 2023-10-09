@@ -70,8 +70,8 @@ Foi implementado um exemplo de decorator utilizando o worker do Celery/Kombu, de
 
 Para isto deve-se inicializar o core de controle na aplicação passando unma listagem de que identifica fila e exchanges associados:
 ```python
-    qs = [GeekieQueueExchange('teste1', 'teste1_event'), GeekieQueueExchange('teste2', 'teste2_event')]
-    gr = GeekieRabbit(qs)
+    qs = [HijikiQueueExchange('teste1', 'teste1_event'), HijikiQueueExchange('teste2', 'teste2_event')]
+    gr = HijikiRabbit(qs)
 ```
 Este processo ira criar as estruturas de filas de dados e Deadletters e seus respectivos Exchanges.
 
@@ -92,3 +92,10 @@ O endereço http://127.0.0.1:5000/publish_message publicará uma mensagem que ca
 ```
 consumidor1 executado
 ```
+
+Esta implementação esta disponivel na biblioteca Hikiji, 
+https://pypi.org/project/hijiki/#history
+
+e 
+
+https://github.com/asengardeon/hijiki
