@@ -1,7 +1,7 @@
-from application.geekie_rabbit.geekie_rabbit import GeekieRabbit, GeekieQueueExchange
+from hijiki.broker.hijiki_rabbit import HijikiQueueExchange, HijikiRabbit
 
-qs = [GeekieQueueExchange('teste1', 'teste1_event'), GeekieQueueExchange('teste2', 'teste2_event')]
-gr = GeekieRabbit(qs)
+qs = [HijikiQueueExchange('teste1', 'teste1_event'), HijikiQueueExchange('teste2', 'teste2_event')]
+gr = HijikiRabbit(qs)
 
 class MeuConsumidor():
     @gr.task(queue_name='teste1')

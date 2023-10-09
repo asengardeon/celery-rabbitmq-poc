@@ -1,4 +1,4 @@
-from celery import Celery, bootsteps
+from celery import Celery
 from kombu import Exchange, Queue
 
 from application.broker.consts import get_broker_url

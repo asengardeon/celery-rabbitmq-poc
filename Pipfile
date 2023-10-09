@@ -5,8 +5,8 @@ name = "pypi"
 
 [packages]
 importlib-metadata = "==4.13.0"
-celery = "==5.0.5"
-flask = "*"
+flask = "==2.3.3"
+hijiki = "*"
 
 [dev-packages]
 
