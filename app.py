@@ -1,4 +1,5 @@
 from flask import Flask, request
+from hijiki.publisher.Publisher import Publisher
 
 from application.broker.celery_configs import GT_Broker
 from application.client.client import send_as_task_v1, publish_message
@@ -22,8 +23,8 @@ def newmessage():
 
 @app.get('/publish_message')
 def send_message():
-    connection = broker.get_celery_broker().broker_connection()
-    publish_message(connection,data="mensagem publicada", event_name='teste1_event')
+    pub = Publisher()
+    pub.publish_message('teste1_event', '{"value": "Esta é a mensagem"}')
     return "OK"
 
 
