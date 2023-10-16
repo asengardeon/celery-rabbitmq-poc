@@ -71,7 +71,11 @@ Foi implementado um exemplo de decorator utilizando o worker do Celery/Kombu, de
 Para isto deve-se inicializar o core de controle na aplicação passando unma listagem de que identifica fila e exchanges associados:
 ```python
     qs = [HijikiQueueExchange('teste1', 'teste1_event'), HijikiQueueExchange('teste2', 'teste2_event')]
-    gr = HijikiRabbit(qs)
+    gr = HijikiRabbit().with_queues_exchange(qs).with_username("rabbitmq") \
+        .with_password("rabbitmq") \
+        .with_host("localhost") \
+        .with_port(5672) \
+        .build()
 ```
 Este processo ira criar as estruturas de filas de dados e Deadletters e seus respectivos Exchanges.
 
@@ -104,7 +108,7 @@ https://github.com/asengardeon/hijiki
 Para publicar uma mensagem com o uso da biblioteca Hijiki, pode-se utilizar o código abaixo:
 
 ```python
-    pub = Publisher()
+    pub = Publisher("localhost", "rabbitmq", "rabbitmq", 5672)
     pub.publish_message('teste1_event', '{"value": "Esta é a mensagem"}')
 ```
 

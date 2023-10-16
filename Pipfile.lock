@@ -43,10 +43,11 @@
         },
         "hijiki": {
             "hashes": [
-                "sha256:534f69adf621ff0bdd8340d54b9a365f75b69959786df80afe7b70120f980f45"
+                "sha256:0ecba72d37766dca1b27dfc9d575e7cb23a9eb728cef64f8099bb2861d73fc39",
+                "sha256:8061eab2ce856fa0b76bb915c0954d2dae809a8df880b4080167ca70b2c8d43e"
             ],
             "index": "pypi",
-            "version": "==0.1.9"
+            "version": "==1.0.35"
         },
         "importlib-metadata": {
             "hashes": [
