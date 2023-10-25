@@ -83,8 +83,8 @@ Em seguida é necessário apenas decorar uma função python que execute alguma 
 
 ```python
     @gr.task(queue_name='teste1')
-    def meu_consumidor(self):
-        print("consumidor1 executado")
+    def meu_consumidor(data):
+        print(f"consumidor1 executado com mensagem sendo: {data}")
 ```
 
 Esta implementação suporta apenas serializador json como corpo da mensagem.
