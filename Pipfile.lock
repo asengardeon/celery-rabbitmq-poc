@@ -43,11 +43,11 @@
         },
         "hijiki": {
             "hashes": [
-                "sha256:0ecba72d37766dca1b27dfc9d575e7cb23a9eb728cef64f8099bb2861d73fc39",
-                "sha256:8061eab2ce856fa0b76bb915c0954d2dae809a8df880b4080167ca70b2c8d43e"
+                "sha256:a7b1b2fcbd25f5d85df43878f491195f15ae1cbf4f496f25c139a0259355c823",
+                "sha256:e2bac28fddd89f5fe66c1e0ea2bf9cb49910a824dd5bdf971f9ef1dcd7e66889"
             ],
             "index": "pypi",
-            "version": "==1.0.35"
+            "version": "==1.0.51"
         },
         "importlib-metadata": {
             "hashes": [
@@ -142,11 +142,11 @@
         },
         "werkzeug": {
             "hashes": [
-                "sha256:3ffff4dcc32db52ef3cc94dff3000a3c2846890f3a5a51800a27b909c5e770f0",
-                "sha256:cbb2600f7eabe51dbc0502f58be0b3e1b96b893b05695ea2b35b43d4de2d9962"
+                "sha256:507e811ecea72b18a404947aded4b3390e1db8f826b494d76550ef45bb3b1dcc",
+                "sha256:90a285dc0e42ad56b34e696398b8122ee4c681833fb35b8334a095d82c56da10"
             ],
             "markers": "python_version >= '3.8'",
-            "version": "==3.0.0"
+            "version": "==3.0.1"
         },
         "zipp": {
             "hashes": [
