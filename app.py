@@ -23,7 +23,7 @@ def newmessage():
 
 @app.get('/publish_message')
 def send_message():
-    pub = Publisher()
+    pub = Publisher("localhost", "user", "pwd", 5672)
     pub.publish_message('teste1_event', '{"value": "Esta é a mensagem"}')
     return "OK"
 
