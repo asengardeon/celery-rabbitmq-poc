@@ -1,4 +1,4 @@
-class MyException(BaseException):
+class MyException(Exception):
     pass
 def hello_task(who='world'):
     print(f'Received {who}')
