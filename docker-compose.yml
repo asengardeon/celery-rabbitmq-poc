@@ -14,6 +14,11 @@ services:
             - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
         networks:
             - rabbitmq_go_net
+        healthcheck:
+            test: ["CMD", "rabbitmqctl", "status"]
+            interval: 5s
+            timeout: 10s
+            retries: 10
     celery-rabbit-poc:
         environment:
             BROKER_SERVER: "rabbitmq"
@@ -21,7 +26,8 @@ services:
         ports:
             - "5000:5000"
         depends_on:
-            - "rabbitmq"
+            rabbitmq:
+                condition: service_healthy
         links:
             - rabbitmq
         networks:
